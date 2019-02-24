@@ -1,36 +1,23 @@
-﻿
+﻿module MultiSet
 
-module MultiSet
+    type MultiSet<'a when 'a : comparison>
 
-    type MultiSet<'a when 'a : comparison>  = MS of Map<'a, uint32>
-
-    let empty = MS (Map.empty)
-    let isEmpty (MS(m)) = Map.isEmpty m
-    let size (MS(m)) = Map.count m
-    let contains a (MS(m)) = Map.containsKey a m
-    let numItems a (MS(m)) = Map.tryFind(a)
-
-    let add a u (MS(m)) = 
-        if Map.containsKey a m 
-            then 
-                let tmpval = Map.find a m
-                MS(Map.add a (u+tmpval) m)
-        else MS(Map.add a u m)
-
-    let addSingle a (MS(m)) = add a 1u (MS(m))
-
-    let remove a u (MS(m)) = 
-        if Map.containsKey a m 
-            then 
-                let tmpval = Map.find a m
-                if tmpval< u then MS(Map.remove a m)
-                else 
-                    if Map.containsKey a m 
-                        then 
-                            let tmpval = Map.find a m
-                            MS(Map.add a (u+tmpval) m)
-                    else MS(Map.add a u m)
-        else MS(m)
-
-    let removeSingle a (MS(m)) = remove a 1u (MS(m))
+    val empty : MultiSet<'a>
+    val isEmpty : MultiSet<'a> -> bool
+    val size : MultiSet<'a> -> uint32
+    val contains : 'a -> MultiSet<'a> -> bool
+    //val numItems : 'a -> MultiSet<'a> -> uint32
+    val add : 'a -> uint32 -> MultiSet<'a> -> MultiSet<'a>
+    val addSingle : 'a -> MultiSet<'a> -> MultiSet<'a>
+    val remove : 'a -> uint32 -> MultiSet<'a> -> MultiSet<'a> 
+    val removeSingle : 'a -> MultiSet<'a> -> MultiSet<'a> 
+    //val fold : ('a -> 'b -> uint32 -> 'a) -> 'a -> MultiSet<'b> -> 'a 
+    //val foldBack : ('a -> uint32 -> 'b -> 'b) -> MultiSet<'a> -> 'b -> 'b
+    //val map : ('a -> 'b) -> MultiSet<'a> -> MultiSet<'b>
+    //val ofList : 'a list -> MultiSet<'a>
+    //val toList : MultiSet<'a> -> 'a list
+    val union : MultiSet<'a> -> MultiSet<'a> -> MultiSet<'a>
+    val subtract : MultiSet<'a> -> MultiSet<'a> -> MultiSet<'a>
+    //val intersection : MultiSet<'a> -> MultiSet<'a> -> MultiSet<'a>
+    
     
